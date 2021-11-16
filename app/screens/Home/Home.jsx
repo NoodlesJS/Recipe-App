@@ -5,7 +5,7 @@ import { Feather } from '@expo/vector-icons';
 
 import { extraStyles } from '../../styles/extraStyles';
 import { dummyData } from '../../util/dummyData';
-import { RecipeCard } from '../../components';
+import { RecipeCard, RecipeCardLong } from '../../components';
 
 export const Home = ({navigation}) => {
   const [dummyData, setDummyData] = useState(null)
@@ -15,9 +15,32 @@ export const Home = ({navigation}) => {
   }, [])
 
   const getData = async() => {
-    let data = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=g')
+    let data = await fetch('https://www.themealdb.com/api/json/v2/9973533/latest.php')
     let recipe = await data.json()
     setDummyData(recipe.meals)
+  }
+
+  const headerView = () => {
+    return (
+      <>
+        <Text style={[tw('pt-9 mb-4 text-xl text-gray-900'), extraStyles.fontB]}>Something random</Text>
+        <FlatList 
+          data={dummyData}
+          renderItem={(item) => {
+            return (
+              <RecipeCard
+                recipeItem={item.item}
+                onPress={() => navigation.navigate('Recipe', {recipe: item.item})}
+              />
+            )
+          }}
+          keyExtractor={item => item.idMeal}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+        <Text style={[tw('mt-9 mb-4 text-xl text-gray-900'), extraStyles.fontB]}>Latest Recipes</Text>
+      </>
+    )
   }
 
   return (
@@ -39,23 +62,27 @@ export const Home = ({navigation}) => {
       </View>
 
       {/* Something Random */}
-      <View style={tw('mt-9 px-6')}>
-        <Text style={[tw('mb-4 text-xl text-gray-900'), extraStyles.fontB]}>Something random</Text>
-        <FlatList 
+      <View style={tw('px-6')}>
+        {/* <RecipeCardLong /> */}
+        <FlatList
           data={dummyData}
-          renderItem={(item) => {
+          keyExtractor={item => item.idMeal}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={headerView()}
+          renderItem={item => {
             return (
-              <RecipeCard
+              <RecipeCardLong
                 recipeItem={item.item}
                 onPress={() => navigation.navigate('Recipe', {recipe: item.item})}
               />
             )
           }}
-          keyExtractor={item => item.idMeal}
-          horizontal
-          showsHorizontalScrollIndicator={false}
+          ListFooterComponent={
+            <View style={tw('mb-60')} />
+          }
         />
       </View>
+      
     </View>
   )
 }

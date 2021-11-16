@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "recipe-app",
-    "slug": "recipe-app",
+    "name": "Recipe-App",
+    "slug": "Recipe-App",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.noodlesjs.RecipeApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
