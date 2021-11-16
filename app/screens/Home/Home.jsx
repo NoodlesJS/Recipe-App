@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
 import tw from 'tailwind-rn'
 import { Feather } from '@expo/vector-icons';
 
 import { extraStyles } from '../../styles/extraStyles';
-import { dummyData } from '../../util/dummyData';
 import { RecipeCard, RecipeCardLong } from '../../components';
 
 export const Home = ({navigation}) => {
-  const [dummyData, setDummyData] = useState(null)
+  const [latestRecipe, setLatestRecipe] = useState(null)
+  const [randomRecipe, setRandomRecipe] = useState(null)
 
   useEffect(() => {
     getData()
   }, [])
 
   const getData = async() => {
-    let data = await fetch('https://www.themealdb.com/api/json/v2/9973533/latest.php')
-    let recipe = await data.json()
-    setDummyData(recipe.meals)
+    //need to manage data fail
+
+    let latestRecipe = await fetch('https://www.themealdb.com/api/json/v2/9973533/latest.php')
+    let randomRecipe = await fetch('https://www.themealdb.com/api/json/v2/9973533/randomselection.php')
+    let latest = await latestRecipe.json()
+    let random = await randomRecipe.json()
+    setLatestRecipe(latest.meals.slice(0, 5))
+    setRandomRecipe(random.meals.slice(0, 5))
   }
 
   const headerView = () => {
@@ -25,7 +30,7 @@ export const Home = ({navigation}) => {
       <>
         <Text style={[tw('pt-9 mb-4 text-xl text-gray-900'), extraStyles.fontB]}>Something random</Text>
         <FlatList 
-          data={dummyData}
+          data={randomRecipe}
           renderItem={(item) => {
             return (
               <RecipeCard
@@ -37,6 +42,9 @@ export const Home = ({navigation}) => {
           keyExtractor={item => item.idMeal}
           horizontal
           showsHorizontalScrollIndicator={false}
+          ListEmptyComponent={
+            <ActivityIndicator />
+          }
         />
         <Text style={[tw('mt-9 mb-4 text-xl text-gray-900'), extraStyles.fontB]}>Latest Recipes</Text>
       </>
@@ -63,11 +71,11 @@ export const Home = ({navigation}) => {
 
       {/* Something Random */}
       <View style={tw('px-6')}>
-        {/* <RecipeCardLong /> */}
         <FlatList
-          data={dummyData}
+          data={latestRecipe}
           keyExtractor={item => item.idMeal}
           showsVerticalScrollIndicator={false}
+          initialNumToRender={3}
           ListHeaderComponent={headerView()}
           renderItem={item => {
             return (
@@ -79,6 +87,9 @@ export const Home = ({navigation}) => {
           }}
           ListFooterComponent={
             <View style={tw('mb-60')} />
+          }
+          ListEmptyComponent={
+            <ActivityIndicator />
           }
         />
       </View>
