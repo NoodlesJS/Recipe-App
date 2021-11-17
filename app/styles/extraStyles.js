@@ -10,6 +10,16 @@ export const extraStyles = StyleSheet.create({
   fontB: {
     fontFamily: 'interB'
   },
+  shadow_xs: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1,
+    elevation: 1
+  },
   shadow_sm: {
     shadowColor: "#000",
     shadowOffset: {

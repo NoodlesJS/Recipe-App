@@ -20,7 +20,7 @@ export const RecipeCardLong = ({recipeItem, onPress}) => {
         <View style={tw('justify-between w-3/5 p-3')}>
           <View>
             <Text style={[tw('text-sm text-gray-900'), extraStyles.fontB]}>{recipeItem.strMeal}</Text>
-            <Text style={[tw('text-xs text-gray-900'), extraStyles.fontR]}>{recipeItem.strArea}</Text>
+            <Text style={[tw('text-xs text-gray-500'), extraStyles.fontR]}>{recipeItem.strArea}</Text>
           </View>
           <View style={tw('self-start py-0.5 px-2 bg-gray-900 bg-opacity-75 rounded-full')}>
             <Text style={[tw('text-xs text-white'), extraStyles.fontR]}>{recipeItem.strCategory}</Text>
